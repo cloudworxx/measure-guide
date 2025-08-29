@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { listen } from '@tauri-apps/api/event';
+import { useEffect, useRef, useState } from "react";
+// import { listen } from '@tauri-apps/api/event';
 import { TopBar, Canvas, Toolbar, CalibrationOverlay } from "./components";
 import { useWindowSize, useViewport, useHistory } from "./hooks";
 import { Tool, Units, ProjectState, LineEntity, RectEntity, CircleEntity, TextEntity, Point } from "./types";
@@ -160,7 +160,7 @@ export default function MeasureCanvasApp() {
     }
   };
 
-  const handleMouseMove = (e: any) => {
+  const handleMouseMove = (_e: any) => {
     const stage = viewport.stageRef.current as any;
     const pos = stage.getPointerPosition();
     const canvasPos = viewport.toCanvas(pos);
@@ -178,7 +178,7 @@ export default function MeasureCanvasApp() {
     setHoverPos(finalPos);
   };
 
-  const handleMouseUp = (e: any) => {
+  const handleMouseUp = (_e: any) => {
     const stage = viewport.stageRef.current as any;
     const pos = stage.getPointerPosition();
     const canvasPos = viewport.toCanvas(pos);
@@ -239,7 +239,7 @@ export default function MeasureCanvasApp() {
       if (e.key === 'Shift') setShiftDown(true);
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); }
-      if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); viewport.resetZoom(containerRef, proj.imageSize); }
+      if ((e.ctrlKey || e.metaKey) && e.key === '0') { e.preventDefault(); viewport.resetZoom(containerRef as React.RefObject<HTMLDivElement>, proj.imageSize); }
       if (e.key === 'Escape') {
         // ESC cancels current drawing operations
         if (editingText) {
@@ -277,7 +277,7 @@ export default function MeasureCanvasApp() {
 
       // Fit image initially
       if (containerRef.current) {
-        viewport.fitToImage(containerRef, { w: img.width, h: img.height });
+        viewport.fitToImage(containerRef as React.RefObject<HTMLDivElement>, { w: img.width, h: img.height });
       }
     } catch (error) {
       alert("Fehler beim Laden des Bildes");
@@ -526,7 +526,7 @@ export default function MeasureCanvasApp() {
             // Fit to image after loading
             if (containerRef.current && projectData.imageSize) {
               setTimeout(() => {
-                viewport.fitToImage(containerRef, projectData.imageSize);
+                viewport.fitToImage(containerRef as React.RefObject<HTMLDivElement>, projectData.imageSize);
               }, 100);
             }
           };
@@ -571,8 +571,8 @@ export default function MeasureCanvasApp() {
         size={size}
         scale={viewport.scale}
         offset={viewport.offset}
-        image={proj.image}
-        imageSize={proj.imageSize}
+        image={proj.image ?? null}
+        imageSize={proj.imageSize ?? null}
         entities={proj.entities}
         calibrationAB={calibrationAB}
         lineStart={lineStart}
@@ -611,7 +611,8 @@ export default function MeasureCanvasApp() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded-lg shadow-xl max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-3">Text bearbeiten</h3>
-            
+            <input type="hidden" value={projectFileName ?? 'none'} />
+
             {/* Text Tools */}
             <div className="mb-3 p-3 bg-gray-50 rounded-lg">
               <h4 className="text-sm font-semibold text-gray-800 mb-2 flex items-center">
@@ -735,8 +736,8 @@ export default function MeasureCanvasApp() {
         selectedId={selectedId}
         onDelete={onDelete}
         onStartCalibration={startTwoPointCalibration}
-        onResetZoom={() => viewport.resetZoom(containerRef, proj.imageSize)}
-        onFitToImage={() => viewport.fitToImage(containerRef, proj.imageSize)}
+        onResetZoom={() => viewport.resetZoom(containerRef as React.RefObject<HTMLDivElement>, proj.imageSize)}
+        onFitToImage={() => viewport.fitToImage(containerRef as React.RefObject<HTMLDivElement>, proj.imageSize)}
         scale={viewport.scale}
         calibrationPPM={proj.calibration.ppm}
         shiftDown={shiftDown}

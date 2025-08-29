@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Tool, Units } from "../types";
 import { colorToAlpha, fillToColor } from "../utils/geometry";
 

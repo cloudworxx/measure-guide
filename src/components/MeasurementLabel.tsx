@@ -1,4 +1,3 @@
-import React from "react";
 import { Rect as KonvaRect, Text as KonvaText, Group } from "react-konva";
 
 interface LabelProps {

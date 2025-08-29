@@ -1,6 +1,6 @@
 [package]
 name = "measure-guide"
-version = "0.1.0"
+version = "0.2.0"
 description = "Cross-platform desktop app built with Tauri and React for measuring and annotating images. Users can load plans or photos, calibrate a scale, draw lines, rectangles or circles, calculate distances and areas in real units, and export the annotated image as PDF or PNG."
 authors = ["Sascha Klein, cloudworxx.us <cloudworxx@gmail.com>"]
 edition = "2021"

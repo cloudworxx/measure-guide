@@ -43,10 +43,10 @@ interface CanvasProps {
   isPanning: boolean;
   spaceDown: boolean;
   shiftDown: boolean;
-  onWheel: (e: any) => void;
-  onMouseDown: (e: any) => void;
-  onMouseMove: (e: any) => void;
-  onMouseUp: (e: any) => void;
+  onWheel: (_e: any) => void;
+  onMouseDown: (_e: any) => void;
+  onMouseMove: (_e: any) => void;
+  onMouseUp: (_e: any) => void;
   onSelectEntity: (id: string) => void;
   headerHeight?: number;
 }
@@ -365,7 +365,7 @@ export function Canvas({
                   shadowBlur={selectedId === ent.id ? 8 : 0}
                   shadowColor="blue"
                   draggable={tool === 'select'}
-                  onDragEnd={(e) => {
+                  onDragEnd={() => {
                     if (tool === 'select') {
                       // Update text position after drag
                       // This would need to be handled by a callback prop
